@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import TaskStatusOperations from "./TaskOperations/TaskStatusOperations";
@@ -13,9 +14,9 @@ export interface Props {
     priority: string,
     tags: Array<string>,
     createdAt: string,
-    onTaskStatusChange: Function,
-    onConfirmDelete: Function,
-    onConfirmEdit: Function
+    onTaskStatusChange: (event: React.ChangeEvent<HTMLInputElement>, id: number) => void,
+    onConfirmDelete: (event: React.MouseEvent<HTMLElement>) => void,
+    onConfirmEdit: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 export default function Task(props: Props): any {
@@ -29,8 +30,7 @@ export default function Task(props: Props): any {
         setOpen(!open)
     }
 
-    // @ts-ignore
-    const onStatusChange = (option, id) => {
+    const onStatusChange = (option: any, id: any) => {
         if (['scheduled', 'in-progress', 'done'].includes(option) && option !== props.status) {
             setTaskStatus(option)
             props.onTaskStatusChange(option, id)
@@ -104,7 +104,7 @@ export default function Task(props: Props): any {
                     Priority: {props.priority} | Tags: {props.tags.map((tag) => <i key={tag}>{tag} </i>)} </i>
             </div>
             <hr />
-            {/* @ts-ignore */}
+            {/* @ts-expect-error event handler error */}
             <TaskStatusOperations status={taskStatus} onStatusChange={event => onStatusChange(event, props.id)} />
             <hr />
             <div className="evenly-spaced-buttons">
@@ -115,11 +115,11 @@ export default function Task(props: Props): any {
             {showDeleteModal && createPortal((
                 <DeleteModal
                     id={props.id}
-                    // @ts-ignore
+                    // @ts-expect-error event handler error
                     onConfirmDelete={event => props.onConfirmDelete(event, props.id)}
                     onBackClick={onBackClick}
                 />),
-                // @ts-ignore
+                // @ts-expect-error modalRef.current exists
                 modalRef.current
             )}
             <div onSubmit={onConfirmClick}>
@@ -135,7 +135,7 @@ export default function Task(props: Props): any {
                         onBackClick={onBackClick}
                         onConfirmClick={onConfirmClick}
                     />),
-                    // @ts-ignore
+                    // @ts-expect-error modalRef.current exists
                     modalRef.current
                 )}
             </div>

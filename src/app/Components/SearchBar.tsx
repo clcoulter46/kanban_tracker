@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 export interface Props {
-  onKeywordClick: Function,
-  onAssigneeClick: Function,
-  onTagClick: Function,
+  onKeywordClick: (event: React.MouseEvent<HTMLElement>, keywordSearch: string) => void,
+  onAssigneeClick: (event: React.MouseEvent<HTMLElement>, assigneeSearch: string) => void,
+  onTagClick: (event: React.MouseEvent<HTMLElement>, tagSearch: string) => void,
 }
 
-export default function SearchBar(props: Props): any {
+const SearchBar: React.FC<Props> = props => {
   const [keywordSearch, setKeywordSearch] = useState("")
   const [assigneeSearch, setAssigneeSearch] = useState("")
   const [tagSearch, setTagSearch] = useState("")
@@ -33,7 +33,7 @@ export default function SearchBar(props: Props): any {
           className="search-bar"
           name="keyword"
           value={keywordSearch}
-          // @ts-ignore
+          // @ts-expect-error value exists even if linter disagrees
           onChange={e => setKeywordSearch(e.target.value)}
         />
         <button
@@ -56,7 +56,7 @@ export default function SearchBar(props: Props): any {
           className="search-bar"
           name="asignee"
           value={assigneeSearch}
-          // @ts-ignore
+          // @ts-expect-error value exists even if linter disagrees
           onChange={e => setAssigneeSearch(e.target.value)}
         />
         <button
@@ -79,7 +79,7 @@ export default function SearchBar(props: Props): any {
           className="search-bar"
           name="tags"
           value={tagSearch}
-          // @ts-ignore
+          // @ts-expect-error value exists even if linter disagrees
           onChange={e => setTagSearch(e.target.value)}
         />
         <button
@@ -94,3 +94,5 @@ export default function SearchBar(props: Props): any {
     </div>
   );
 }
+
+export default SearchBar

@@ -3,8 +3,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { heightAdjuster } from '../../utils'
 
 export interface Props {
-    onConfirmAddTask: any,
-    onExitClick: any,
+    onConfirmAddTask: (event: React.MouseEvent<HTMLElement>) => void,
+    onExitClick: (event: React.MouseEvent<HTMLElement>) => void,
 }
 
 const AddTaskModal: React.FC<Props> = (props) => {
@@ -34,7 +34,7 @@ const AddTaskModal: React.FC<Props> = (props) => {
                         <input
                             name="title"
                             value={newTitle}
-                            // @ts-expect-error
+                            // @ts-expect-error value exists but the linter does not agree
                             onChange={e => setNewTitle(e.target.value)}
                             required={true}
                         />
@@ -48,7 +48,7 @@ const AddTaskModal: React.FC<Props> = (props) => {
                         <textarea
                             name="description"
                             value={newDescription}
-                            // @ts-expect-error
+                            // @ts-expect-error value exists but the linter does not agree
                             onChange={e => setNewDescription(e.target.value)}
                             ref={descriptionRef}
                         />
@@ -62,7 +62,7 @@ const AddTaskModal: React.FC<Props> = (props) => {
                         <input
                             name="assignee"
                             value={newAssignee}
-                            // @ts-expect-error
+                            // @ts-expect-error value exists but the linter does not agree
                             onChange={e => setNewAssignee(e.target.value)}
                             required={true}
                         />
@@ -75,7 +75,7 @@ const AddTaskModal: React.FC<Props> = (props) => {
                         <textarea
                             name="tags"
                             value={newTags}
-                            // @ts-expect-error
+                            // @ts-expect-error value exists but the linter does not agree
                             onChange={e => setNewTags(e.target.value)}
                             ref={tagsRef}
                         />
@@ -87,7 +87,7 @@ const AddTaskModal: React.FC<Props> = (props) => {
                     <select
                         name="priority"
                         value={priorityStatus}
-                        // @ts-expect-error
+                        // @ts-expect-error value exists but the linter does not agree
                         onChange={e => setPriorityStatus(e.target.value)}
                     >
                         <option value="high">HIGH</option>

@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 
-export default function PrioritySelect(priority): any {
+export default function PrioritySelect(priority: any): any {
     const [priorityStatus, setPriorityStatus] = useState(priority)
 
     return (
@@ -8,6 +9,7 @@ export default function PrioritySelect(priority): any {
             <select
                 name="priorityStatus"
                 value={priorityStatus}
+                // @ts-expect-error value exists
                 onChange={e => setPriorityStatus(e.target.value)}
             >
                 <option value="high">HIGH</option>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 
 import Task from "./Task";
@@ -5,12 +6,12 @@ import Task from "./Task";
 export interface Props {
   category: string,
   tasks: Array<object>,
-  onTaskStatusChange: any,
-  onConfirmDelete: any,
-  onConfirmEdit: any,
+  onTaskStatusChange: (event: React.ChangeEvent<HTMLInputElement>, id: number) => void,
+  onConfirmDelete: (event: React.MouseEvent<HTMLElement>, id: number) => void,
+  onConfirmEdit: (event: React.MouseEvent<HTMLElement>) => void,
 }
 
-export default function KanbanCategory(props: Props): any {
+const KanbanCategory: React.FC<Props> = props => {
   return (
     <div
       className="kanban-category"
@@ -42,11 +43,8 @@ export default function KanbanCategory(props: Props): any {
               status={task.status}
               tags={task.tags}
               createdAt={task.createdAt}
-              // @ts-expect-error
               onTaskStatusChange={event => props.onTaskStatusChange(event, task.id)}
-              // @ts-expect-error
               onConfirmDelete={event => props.onConfirmDelete(event, task.id)}
-              // @ts-expect-error
               onConfirmEdit={event => props.onConfirmEdit(event)}
             />
           )
@@ -56,3 +54,5 @@ export default function KanbanCategory(props: Props): any {
     </div>
   );
 }
+
+export default KanbanCategory

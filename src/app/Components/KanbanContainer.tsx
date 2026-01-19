@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import KanbanCategory from "./KanbanCategory";
@@ -22,45 +23,45 @@ export default function KanbanContainer(props: Props): any {
     useEffect(() => {
         // just for inital render
         if (tasks.length > 0) {
-            // @ts-expect-error
+            // @ts-expect-error task status does exist
             const scheduledTaskList: Array<object>= tasks.filter((task: object) => task?.status === "scheduled")
-            // @ts-expect-error
+            // @ts-expect-error task status does exist
             const inProgressTaskList: Array<object> = tasks.filter((task: object) => task?.status === "in-progress")
-            // @ts-expect-error
+            // @ts-expect-error task status does exist
             const completedTaskList: Array<object> = tasks.filter((task: object) => task?.status === "done")
 
-            // @ts-expect-error
+            // @ts-expect-error objects in list are allowed
             setScheduledTasks(scheduledTaskList)
-            // @ts-expect-error
+            // @ts-expect-error objects in list are allowed
             setInProgressTasks(inProgressTaskList)
-            // @ts-expect-error
+            // @ts-expect-error objects in list are allowed
             setCompletedTasks(completedTaskList)
         }
     }, [tasks])
 
     useEffect(() => {
         //repeating this block for react storage reasons
-        // @ts-expect-error
+        // @ts-expect-error task status does exist
         const scheduledTaskList: Array<object> = tasks.filter((task: object) => task?.status === "scheduled")
-        // @ts-expect-error
+        // @ts-expect-error task status does exist
         const inProgressTaskList: Array<object> = tasks.filter((task: object) => task?.status === "in-progress")
-        // @ts-expect-error
+        // @ts-expect-error task status does exist
         const completedTaskList: Array<object> = tasks.filter((task: object) => task?.status === "done")
 
-        // @ts-expect-error
+        // @ts-expect-error objects in list are allowed
         setScheduledTasks(scheduledTaskList)
-        // @ts-expect-error
+        // @ts-expect-error objects in list are allowed
         setInProgressTasks(inProgressTaskList)
-        // @ts-expect-error
+        // @ts-expect-error objects in list are allowed
         setCompletedTasks(completedTaskList)
-    }, [taskList])
+    }, [tasks, taskList])
 
     useEffect(() => {
-        // @ts-expect-error
+        // @ts-expect-error task status does exist
         const scheduledTaskList = filterList.filter((task: object) => task?.status === "scheduled")
-        // @ts-expect-error
+        // @ts-expect-error task status does exist
         const inProgressTaskList = filterList.filter((task: object) => task?.status === "in-progress")
-        // @ts-expect-error
+        // @ts-expect-error task status does exist
         const completedTaskList = filterList.filter((task: object) => task?.status === "done")
 
         setScheduledTasks(scheduledTaskList)
@@ -70,7 +71,7 @@ export default function KanbanContainer(props: Props): any {
 
     const onConfirmDelete = (id: number) => {
         try {
-            // @ts-expect-error
+            // @ts-expect-error task id does exist
             const deletedTaskIndex = tasks.findIndex((task) => task.id === id)
             const newTaskList = tasks.splice(deletedTaskIndex, 1)
             setTaskList(newTaskList)
@@ -81,11 +82,11 @@ export default function KanbanContainer(props: Props): any {
 
     const onTaskStatusChange = async (status: string, id: number) => {
         try {
-            // @ts-expect-error
+            // @ts-expect-error task id does exist
             const updatedTask = tasks.filter((task) => task.id === id)[0]
-            // @ts-expect-error
+            // @ts-expect-error task status does exist
             updatedTask.status = status
-            // @ts-expect-error
+            // @ts-expect-error task id does exist
             const updatedTaskList: Array<object> = await tasks.map(task => [updatedTask].find(o => o.id === task.id))
             setTaskList(updatedTaskList)
 
@@ -98,7 +99,7 @@ export default function KanbanContainer(props: Props): any {
         e.preventDefault()
         try {
             const form = e.target
-            // @ts-expect-error
+            // @ts-expect-error need to pass form into FormData
             const formData = new FormData(form)
             const formJson = Object.fromEntries(formData.entries())
 
@@ -109,7 +110,7 @@ export default function KanbanContainer(props: Props): any {
                 tags: "",
                 priority: "",
             }
-            // @ts-expect-error
+            // @ts-expect-error task id does exist
             updatedTask = tasks.filter((task) => task.id === Number(formJson.id))[0]
             updatedTask.title = formJson.title
             updatedTask.description = formJson.description
@@ -117,7 +118,7 @@ export default function KanbanContainer(props: Props): any {
             updatedTask.tags = String(formJson.tags).split(',')
             updatedTask.priority = formJson.priority
 
-            // @ts-expect-error
+            // @ts-expect-error task id does exist
             const updatedTaskList = await tasks.map(task => [updatedTask].find(o => o.id === task.id))
             setTaskList(updatedTaskList)
         } catch {
@@ -128,7 +129,6 @@ export default function KanbanContainer(props: Props): any {
     const onKeywordClick = async (e: Event, keyword: string) => {
         e.preventDefault()
         try {
-            // @ts-ignore
             const filteredList: any = await tasks.filter((task) => {
                 const listValues = Object.values(task)
                 return listValues.some((value) => {
@@ -144,9 +144,8 @@ export default function KanbanContainer(props: Props): any {
     const onAssigneeClick = async (e: Event, assignee: string) => {
         e.preventDefault()
         try {
-            // @ts-ignore
             const filteredList: any = await tasks.filter((task) => {
-                // @ts-expect-error
+                // @ts-expect-error task assignee does exist
                 return String(task.assignee).toLowerCase().includes(assignee.toLowerCase())
             })
             setFilterList(filteredList)
@@ -158,12 +157,10 @@ export default function KanbanContainer(props: Props): any {
     const onTagClick = async (e: Event, tag: string) => {
         e.preventDefault()
         try {
-            // @ts-ignore
             const filteredList: any = await tasks.filter((task) => {
-                // @ts-expect-error
+                // @ts-expect-error task tags do exist
                 const listValues = task.tags
-                // @ts-expect-error
-                return listValues.some((value) => {
+                return listValues.some((value: any) => {
                     return String(value).toLowerCase().includes(tag.toLowerCase())
                 })
             })
@@ -181,7 +178,7 @@ export default function KanbanContainer(props: Props): any {
         e.preventDefault()
         try {
             const form = e.target
-            // @ts-expect-error
+            // @ts-expect-error need to pass form argument to FormData
             const formData = new FormData(form)
             const formJson = Object.fromEntries(formData.entries())
 
@@ -201,17 +198,17 @@ export default function KanbanContainer(props: Props): any {
             newTask.description = String(formJson?.description)
             newTask.assignee = String(formJson.assignee)
             if (formJson.tags) { 
-                // @ts-expect-error
+                // @ts-expect-error task tags do exist
                 newTask.tags = String(formJson?.tags).split(',').join()
             } 
             newTask.priority = String(formJson?.priority)
             newTask.status = "scheduled"
             const newDate = new Date();
-            // @ts-expect-error
+            // @ts-expect-error task createdAt does exist
             newTask.createdAt = newDate.toLocaleString()
             let updatedList: Array<object>
             if (taskList) {
-                // @ts-expect-error
+                // @ts-expect-error object error not valid
                 updatedList = taskList.push(newTask)
             } else {
                 updatedList = [newTask]
@@ -234,10 +231,11 @@ export default function KanbanContainer(props: Props): any {
         <div ref={addModalRef}>
             {showAddModal ? createPortal((
                 <AddTaskModal
+                    // @ts-expect-error event handler
                     onConfirmAddTask={onConfirmAddTask}
                     onExitClick={onExitClick}
                 />),
-                // @ts-expect-error
+                // @ts-expect-error addModalRef.current exist
                 addModalRef.current
             ) :
                 <div>
@@ -248,8 +246,11 @@ export default function KanbanContainer(props: Props): any {
                         Add New Task
                     </button>
                     <SearchBar
+                        // @ts-expect-error event handler
                         onKeywordClick={onKeywordClick}
+                        // @ts-expect-error event handler
                         onAssigneeClick={onAssigneeClick}
+                        // @ts-expect-error event handler
                         onTagClick={onTagClick}
                     />
 
@@ -266,22 +267,31 @@ export default function KanbanContainer(props: Props): any {
                                 <KanbanCategory
                                     category={"Scheduled"}
                                     tasks={scheduledTasks}
+                                    // @ts-expect-error event handler
                                     onTaskStatusChange={onTaskStatusChange}
+                                    // @ts-expect-error event handler
                                     onConfirmDelete={onConfirmDelete}
+                                    // @ts-expect-error event handler
                                     onConfirmEdit={onConfirmEdit}
                                 />
                                 <KanbanCategory
                                     category={"In-progress"}
                                     tasks={inProgressTasks}
+                                    // @ts-expect-error event handler
                                     onTaskStatusChange={onTaskStatusChange}
+                                    // @ts-expect-error event handler
                                     onConfirmDelete={onConfirmDelete}
+                                    // @ts-expect-error event handler
                                     onConfirmEdit={onConfirmEdit}
                                 />
                                 <KanbanCategory
                                     category={"Done"}
                                     tasks={doneTasks}
+                                    // @ts-expect-error event handler
                                     onTaskStatusChange={onTaskStatusChange}
+                                    // @ts-expect-error event handler
                                     onConfirmDelete={onConfirmDelete}
+                                    // @ts-expect-error event handler
                                     onConfirmEdit={onConfirmEdit}
                                 />
                             </>
