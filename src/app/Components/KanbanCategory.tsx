@@ -3,11 +3,11 @@ import React from "react";
 import Task from "./Task";
 
 export interface Props {
-  category: String,
-  tasks: Array<Object>,
-  onTaskStatusChange: Function,
-  onConfirmDelete: Function,
-  onConfirmEdit: Function,
+  category: string,
+  tasks: Array<object>,
+  onTaskStatusChange: any,
+  onConfirmDelete: any,
+  onConfirmEdit: any,
 }
 
 export default function KanbanCategory(props: Props): any {
@@ -42,11 +42,11 @@ export default function KanbanCategory(props: Props): any {
               status={task.status}
               tags={task.tags}
               createdAt={task.createdAt}
-              // @ts-ignore
+              // @ts-expect-error
               onTaskStatusChange={event => props.onTaskStatusChange(event, task.id)}
-              // @ts-ignore
+              // @ts-expect-error
               onConfirmDelete={event => props.onConfirmDelete(event, task.id)}
-              // @ts-ignore
+              // @ts-expect-error
               onConfirmEdit={event => props.onConfirmEdit(event)}
             />
           )

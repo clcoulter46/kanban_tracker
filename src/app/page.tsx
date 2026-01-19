@@ -10,7 +10,7 @@ export default function Home(): any {
   const [taskData, setTaskData] = useState(Array)
 
   useEffect(() => {
-    let env = process.env.NODE_ENV
+    // let env = process.env.NODE_ENV
     // if (env === "development") {
       setTaskData(testDataJson.tasks)
     // }

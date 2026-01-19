@@ -5,11 +5,11 @@ import SearchBar from "./SearchBar"
 import AddTaskModal from "./Modals/AddTaskModal";
 
 export interface Props {
-    tasks: any
+    tasks: Array<object>
 }
 
 export default function KanbanContainer(props: Props): any {
-    let { tasks } = props
+    const { tasks } = props
 
     const [scheduledTasks, setScheduledTasks] = useState([])
     const [inProgressTasks, setInProgressTasks] = useState([])
@@ -22,49 +22,55 @@ export default function KanbanContainer(props: Props): any {
     useEffect(() => {
         // just for inital render
         if (tasks.length > 0) {
-            // @ts-ignore
-            let scheduledTaskList: any = tasks.filter((task: Object) => task?.status === "scheduled")
-            // @ts-ignore
-            let inProgressTaskList: any = tasks.filter((task: Object) => task?.status === "in-progress")
-            // @ts-ignore
-            let completedTaskList: any = tasks.filter((task: Object) => task?.status === "done")
+            // @ts-expect-error
+            const scheduledTaskList: Array<object>= tasks.filter((task: object) => task?.status === "scheduled")
+            // @ts-expect-error
+            const inProgressTaskList: Array<object> = tasks.filter((task: object) => task?.status === "in-progress")
+            // @ts-expect-error
+            const completedTaskList: Array<object> = tasks.filter((task: object) => task?.status === "done")
 
+            // @ts-expect-error
             setScheduledTasks(scheduledTaskList)
+            // @ts-expect-error
             setInProgressTasks(inProgressTaskList)
+            // @ts-expect-error
             setCompletedTasks(completedTaskList)
         }
     }, [tasks])
 
     useEffect(() => {
         //repeating this block for react storage reasons
-        // @ts-ignore
-        let scheduledTaskList: any = tasks.filter((task: Object) => task?.status === "scheduled")
-        // @ts-ignore
-        let inProgressTaskList: any = tasks.filter((task: Object) => task?.status === "in-progress")
-        // @ts-ignore
-        let completedTaskList: any = tasks.filter((task: Object) => task?.status === "done")
+        // @ts-expect-error
+        const scheduledTaskList: Array<object> = tasks.filter((task: object) => task?.status === "scheduled")
+        // @ts-expect-error
+        const inProgressTaskList: Array<object> = tasks.filter((task: object) => task?.status === "in-progress")
+        // @ts-expect-error
+        const completedTaskList: Array<object> = tasks.filter((task: object) => task?.status === "done")
 
+        // @ts-expect-error
         setScheduledTasks(scheduledTaskList)
+        // @ts-expect-error
         setInProgressTasks(inProgressTaskList)
+        // @ts-expect-error
         setCompletedTasks(completedTaskList)
     }, [taskList])
 
     useEffect(() => {
-        // @ts-ignore
-        let scheduledTaskList = filterList.filter((task: Object) => task?.status === "scheduled")
-        // @ts-ignore
-        let inProgressTaskList = filterList.filter((task: Object) => task?.status === "in-progress")
-        // @ts-ignore
-        let completedTaskList = filterList.filter((task: Object) => task?.status === "done")
+        // @ts-expect-error
+        const scheduledTaskList = filterList.filter((task: object) => task?.status === "scheduled")
+        // @ts-expect-error
+        const inProgressTaskList = filterList.filter((task: object) => task?.status === "in-progress")
+        // @ts-expect-error
+        const completedTaskList = filterList.filter((task: object) => task?.status === "done")
 
         setScheduledTasks(scheduledTaskList)
         setInProgressTasks(inProgressTaskList)
         setCompletedTasks(completedTaskList)
     }, [filterList])
 
-    const onConfirmDelete = (id: Number) => {
+    const onConfirmDelete = (id: number) => {
         try {
-            // @ts-ignore
+            // @ts-expect-error
             const deletedTaskIndex = tasks.findIndex((task) => task.id === id)
             const newTaskList = tasks.splice(deletedTaskIndex, 1)
             setTaskList(newTaskList)
@@ -73,14 +79,14 @@ export default function KanbanContainer(props: Props): any {
         }
     }
 
-    const onTaskStatusChange = async (status: String, id: Number) => {
+    const onTaskStatusChange = async (status: string, id: number) => {
         try {
-            // @ts-ignore
+            // @ts-expect-error
             const updatedTask = tasks.filter((task) => task.id === id)[0]
-            // @ts-ignore
+            // @ts-expect-error
             updatedTask.status = status
-            // @ts-ignore
-            const updatedTaskList: any = await tasks.map(task => [updatedTask].find(o => o.id === task.id))
+            // @ts-expect-error
+            const updatedTaskList: Array<object> = await tasks.map(task => [updatedTask].find(o => o.id === task.id))
             setTaskList(updatedTaskList)
 
         } catch {
@@ -92,7 +98,7 @@ export default function KanbanContainer(props: Props): any {
         e.preventDefault()
         try {
             const form = e.target
-            // @ts-ignore
+            // @ts-expect-error
             const formData = new FormData(form)
             const formJson = Object.fromEntries(formData.entries())
 
@@ -103,7 +109,7 @@ export default function KanbanContainer(props: Props): any {
                 tags: "",
                 priority: "",
             }
-            // @ts-ignore
+            // @ts-expect-error
             updatedTask = tasks.filter((task) => task.id === Number(formJson.id))[0]
             updatedTask.title = formJson.title
             updatedTask.description = formJson.description
@@ -111,7 +117,7 @@ export default function KanbanContainer(props: Props): any {
             updatedTask.tags = String(formJson.tags).split(',')
             updatedTask.priority = formJson.priority
 
-            // @ts-ignore
+            // @ts-expect-error
             const updatedTaskList = await tasks.map(task => [updatedTask].find(o => o.id === task.id))
             setTaskList(updatedTaskList)
         } catch {
@@ -119,7 +125,7 @@ export default function KanbanContainer(props: Props): any {
         }
     }
 
-    const onKeywordClick = async (e: Event, keyword: String) => {
+    const onKeywordClick = async (e: Event, keyword: string) => {
         e.preventDefault()
         try {
             // @ts-ignore
@@ -135,12 +141,12 @@ export default function KanbanContainer(props: Props): any {
         }
     }
 
-    const onAssigneeClick = async (e: Event, assignee: String) => {
+    const onAssigneeClick = async (e: Event, assignee: string) => {
         e.preventDefault()
         try {
             // @ts-ignore
             const filteredList: any = await tasks.filter((task) => {
-                // @ts-ignore
+                // @ts-expect-error
                 return String(task.assignee).toLowerCase().includes(assignee.toLowerCase())
             })
             setFilterList(filteredList)
@@ -149,14 +155,14 @@ export default function KanbanContainer(props: Props): any {
         }
     }
 
-    const onTagClick = async (e: Event, tag: String) => {
+    const onTagClick = async (e: Event, tag: string) => {
         e.preventDefault()
         try {
             // @ts-ignore
             const filteredList: any = await tasks.filter((task) => {
-                // @ts-ignore
+                // @ts-expect-error
                 const listValues = task.tags
-                // @ts-ignore
+                // @ts-expect-error
                 return listValues.some((value) => {
                     return String(value).toLowerCase().includes(tag.toLowerCase())
                 })
@@ -175,11 +181,11 @@ export default function KanbanContainer(props: Props): any {
         e.preventDefault()
         try {
             const form = e.target
-            // @ts-ignore
+            // @ts-expect-error
             const formData = new FormData(form)
             const formJson = Object.fromEntries(formData.entries())
 
-            let newTask = {
+            const newTask = {
                 id: 0,
                 title: '',
                 description: '',
@@ -188,23 +194,24 @@ export default function KanbanContainer(props: Props): any {
                 priority: '',
                 status: '',
             }
-            var randomId = Math.floor(Math.random() * 90) + 15;
+            const randomId = Math.floor(Math.random() * 90) + 15;
             newTask.id = randomId
             //normally a database would just do this so I'm making something work for now
             newTask.title = String(formJson.title)
             newTask.description = String(formJson?.description)
             newTask.assignee = String(formJson.assignee)
             if (formJson.tags) { 
-                // @ts-ignore
+                // @ts-expect-error
                 newTask.tags = String(formJson?.tags).split(',').join()
             } 
             newTask.priority = String(formJson?.priority)
             newTask.status = "scheduled"
             const newDate = new Date();
-            // @ts-ignore
+            // @ts-expect-error
             newTask.createdAt = newDate.toLocaleString()
-            let updatedList: any
+            let updatedList: Array<object>
             if (taskList) {
+                // @ts-expect-error
                 updatedList = taskList.push(newTask)
             } else {
                 updatedList = [newTask]
@@ -230,7 +237,7 @@ export default function KanbanContainer(props: Props): any {
                     onConfirmAddTask={onConfirmAddTask}
                     onExitClick={onExitClick}
                 />),
-                // @ts-ignore
+                // @ts-expect-error
                 addModalRef.current
             ) :
                 <div>

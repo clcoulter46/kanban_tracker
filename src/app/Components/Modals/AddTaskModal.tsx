@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 
 import { heightAdjuster } from '../../utils'
 
-export default function AddTaskModal({
-    onConfirmAddTask,
-    onExitClick,
-}): any {
+export interface Props {
+    onConfirmAddTask: any,
+    onExitClick: any,
+}
+
+const AddTaskModal: React.FC<Props> = (props) => {
     const [newTitle, setNewTitle] = useState('')
     const [newDescription, setNewDescription] = useState('')
     const [newAssignee, setNewAssignee] = useState('')
@@ -23,7 +25,7 @@ export default function AddTaskModal({
     }, [newDescription])
 
     return (
-        <form className="add-task" id="add-task" onSubmit={onConfirmAddTask}>
+        <form className="add-task" id="add-task" onSubmit={props.onConfirmAddTask}>
             <div>Fill out the fields below, then Confirm to save the task.</div>
             <div style={{ flexDirection: "column" }}>
                 <div>
@@ -32,6 +34,7 @@ export default function AddTaskModal({
                         <input
                             name="title"
                             value={newTitle}
+                            // @ts-expect-error
                             onChange={e => setNewTitle(e.target.value)}
                             required={true}
                         />
@@ -45,6 +48,7 @@ export default function AddTaskModal({
                         <textarea
                             name="description"
                             value={newDescription}
+                            // @ts-expect-error
                             onChange={e => setNewDescription(e.target.value)}
                             ref={descriptionRef}
                         />
@@ -58,6 +62,7 @@ export default function AddTaskModal({
                         <input
                             name="assignee"
                             value={newAssignee}
+                            // @ts-expect-error
                             onChange={e => setNewAssignee(e.target.value)}
                             required={true}
                         />
@@ -70,6 +75,7 @@ export default function AddTaskModal({
                         <textarea
                             name="tags"
                             value={newTags}
+                            // @ts-expect-error
                             onChange={e => setNewTags(e.target.value)}
                             ref={tagsRef}
                         />
@@ -81,6 +87,7 @@ export default function AddTaskModal({
                     <select
                         name="priority"
                         value={priorityStatus}
+                        // @ts-expect-error
                         onChange={e => setPriorityStatus(e.target.value)}
                     >
                         <option value="high">HIGH</option>
@@ -91,10 +98,12 @@ export default function AddTaskModal({
                 </div>
             </div>
             <div className="evenly-spaced-buttons">
-                <button type="button" onClick={onExitClick} className="button">Back</button>
+                <button type="button" onClick={props.onExitClick} className="button">Back</button>
                 <button type="submit" className="button">Confirm</button>
             </div>
             <i>Fields marked with * are required</i>
         </form>
     )
 }
+
+export default AddTaskModal
