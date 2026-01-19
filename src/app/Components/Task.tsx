@@ -104,7 +104,6 @@ export default function Task(props: Props): any {
                     Priority: {props.priority} | Tags: {props.tags.map((tag: any) => <i key={tag}>{tag} </i>)} </i>
             </div>
             <hr />
-            {/* @ts-expect-error event handler error */}
             <TaskStatusOperations status={taskStatus} onStatusChange={event => onStatusChange(event, props.id)} />
             <hr />
             <div className="evenly-spaced-buttons">
