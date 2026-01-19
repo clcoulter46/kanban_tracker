@@ -12,7 +12,7 @@ export interface Props {
     status: string,
     assignee: string,
     priority: string,
-    tags: Array<string>,
+    tags: any,
     createdAt: string,
     onTaskStatusChange: (event: React.ChangeEvent<HTMLInputElement>, id: number) => void,
     onConfirmDelete: (event: React.MouseEvent<HTMLElement>) => void,
@@ -90,7 +90,7 @@ export default function Task(props: Props): any {
                         <div>
                             <b>{props.description}</b>
                             <br />
-                            {props.tags && <div><b>Tags:</b> {props.tags.map((tag) => <div key={tag}>- {tag}</div>)}</div>}
+                            {props.tags && <div><b>Tags:</b> {props.tags.map((tag: any) => <div key={tag}>- {tag}</div>)}</div>}
                         </div>
                         : <div style={{ textAlign: "center" }}>[ - - - ]</div>
                     }
@@ -101,7 +101,7 @@ export default function Task(props: Props): any {
                 fontFamily: 'Times'
             }}>
                 <i>Assigned: {props.assignee} | created: {props.createdAt ? props.createdAt : '09-09-2025, 11:59:33 AM'} |
-                    Priority: {props.priority} | Tags: {props.tags.map((tag) => <i key={tag}>{tag} </i>)} </i>
+                    Priority: {props.priority} | Tags: {props.tags.map((tag: any) => <i key={tag}>{tag} </i>)} </i>
             </div>
             <hr />
             {/* @ts-expect-error event handler error */}
