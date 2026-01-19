@@ -2,22 +2,24 @@ import React, { useState, useRef, useEffect } from "react";
 
 import { heightAdjuster } from "@/app/utils";
 
-export default function EditModal({
-    id,
-    title,
-    description,
-    assignee,
-    tags,
-    priority,
-    onConfirmEdit,
-    onBackClick,
-    onConfirmClick
-}) {
-    const [newTitle, setNewTitle] = useState(title)
-    const [newDescription, setNewDescription] = useState(description)
-    const [newAssignee, setNewAssignee] = useState(assignee)
-    const [newTags, setNewTags] = useState(tags)
-    const [priorityStatus, setPriorityStatus] = useState(priority)
+export interface Props {
+    id: string,
+    title: string,
+    description: string,
+    assignee: string,
+    tags: string,
+    priority: string,
+    onConfirmEdit: (event: React.MouseEvent<HTMLElement>) => void,
+    onBackClick: (event: React.MouseEvent<HTMLElement>) => void,
+    onConfirmClick: (event: React.MouseEvent<HTMLElement>) => void,
+}
+
+const EditModal: React.FC<Props> = props => {
+    const [newTitle, setNewTitle] = useState(props.title)
+    const [newDescription, setNewDescription] = useState(props.description)
+    const [newAssignee, setNewAssignee] = useState(props.assignee)
+    const [newTags, setNewTags] = useState(props.tags)
+    const [priorityStatus, setPriorityStatus] = useState(props.priority)
     const tagsRef = useRef(null)
     const descriptionRef = useRef(null)
 
@@ -30,7 +32,7 @@ export default function EditModal({
     }, [newDescription])
 
     return (
-        <form className="edit-modal" id="edit-modal" onSubmit={onConfirmEdit}>
+        <form className="edit-modal" id="edit-modal" onSubmit={props.onConfirmEdit}>
             <div>Make changes below, then Confirm to save changes.</div>
             <div style={{ flexDirection: "column" }}>
                 <div>
@@ -39,7 +41,7 @@ export default function EditModal({
                     </label>
                     <input
                         name="id"
-                        value={id}
+                        value={props.id}
                         readOnly={true}
                     />
                 </div>
@@ -50,6 +52,7 @@ export default function EditModal({
                         <input
                             name="title"
                             value={newTitle}
+                            // @ts-expect-error value does exist
                             onChange={e => setNewTitle(e.target.value)}
                         />
                     </label>
@@ -61,6 +64,7 @@ export default function EditModal({
                         <textarea
                             name="description"
                             value={newDescription}
+                            // @ts-expect-error value does exist
                             onChange={e => setNewDescription(e.target.value)}
                             ref={descriptionRef}
                         />
@@ -74,6 +78,7 @@ export default function EditModal({
                         <input
                             name="assignee"
                             value={newAssignee}
+                            // @ts-expect-error value does exist
                             onChange={e => setNewAssignee(e.target.value)}
                         />
                     </label>
@@ -85,6 +90,7 @@ export default function EditModal({
                         <textarea
                             name="tags"
                             value={newTags}
+                            // @ts-expect-error value does exist
                             onChange={e => setNewTags(e.target.value)}
                             ref={tagsRef}
                         />
@@ -96,6 +102,7 @@ export default function EditModal({
                     <select
                         name="priority"
                         value={priorityStatus}
+                        // @ts-expect-error value does exist
                         onChange={e => setPriorityStatus(e.target.value)}
                     >
                         <option value="high">HIGH</option>
@@ -106,9 +113,11 @@ export default function EditModal({
                 </div>
             </div>
             <div className="evenly-spaced-buttons">
-                <button type="button" onClick={onBackClick} className="button">Back</button>
-                <button type="submit" className="button" onSubmit={onConfirmClick}>Confirm</button>
+                <button type="button" onClick={props.onBackClick} className="button">Back</button>
+                <button type="submit" className="button" onSubmit={props.onConfirmClick}>Confirm</button>
             </div>
         </form>
     )
 }
+
+export default EditModal

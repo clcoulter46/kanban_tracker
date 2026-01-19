@@ -10,6 +10,7 @@ Some basic functionality:
     - can delete tags by hitting delete and confirm buttons. [confirmation banner on page planned]
 
 Some planned functionality:
+    - Add authentication/login for users! And keep track of users!
     - '+' button to add task to each column
     - 'x' to clear search bar
     - task drag and drop to change status
